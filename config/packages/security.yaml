@@ -26,6 +26,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        api:
+            pattern: ^/api/
+            stateless: true
+            anonymous: lazy
+            user_checker: rox.user_checker
+            json_login:
+                check_path: /login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         main:
             remember_me:
                 secret: '%env(APP_SECRET)%'
@@ -78,7 +88,8 @@ security:
         - { path: ^/volunteer, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/communitynews, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/members/avatar/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/api/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 
 #    role_hierarchy:
