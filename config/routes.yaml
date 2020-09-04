@@ -1,3 +1,9 @@
 legacy:
   resource: .
   type:     legacy
+
+api_login:
+    path: /api/login
+
+api_logout:
+    path: /api/logout

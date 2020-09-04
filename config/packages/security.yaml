@@ -32,9 +32,15 @@ security:
             anonymous: lazy
             user_checker: rox.user_checker
             json_login:
-                check_path: /login
+                check_path: /api/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            logout:
+                path: /api/logout
+                delete_cookies: ['bewelcome']
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
             remember_me:

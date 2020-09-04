@@ -68,6 +68,46 @@ jobs:
       - name: Run phpunit tests
         run: bin/phpunit
 
+  behat:
+    name: Behat
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    env:
+      MAILER_DSN: 'smtp://localhost:1025'
+    services:
+      mailcatcher:
+        image: tophfr/mailcatcher
+        ports:
+          - 1080:80
+          - 1025:25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.3
+          extensions: curl, dom, gd, iconv, intl, json, libxml, mbstring, mysqli, pcntl, pdo_mysql, phar, tokenizer, xdebug, xml, xmlwriter, xsl, zip
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+
+      - name: Run behat tests
+        run: vendor/bin/behat --profile localhost --colors --tags='~@wip'
+
   phploc:
     name: PHPLoc
     runs-on: ubuntu-latest
