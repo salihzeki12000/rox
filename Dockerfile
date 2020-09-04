@@ -21,6 +21,7 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
+		openssh-client \
 	;
 
 ARG APCU_VERSION=5.1.18
@@ -127,7 +128,7 @@ RUN set -eux; \
 COPY package.json yarn.lock webpack.config.js ./
 RUN set -eux; \
 	yarn install --frozen-lock; \
-	./node_modules/.bin/encore production --mode=production
+	yarn encore production --mode=production
 
 # do not use .env files in production
 COPY .env ./

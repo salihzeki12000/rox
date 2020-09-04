@@ -28,7 +28,8 @@ final class MemberContextBuilder implements SerializerContextBuilderInterface
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
         $resourceClass = $request->attributes->get('_api_resource_class');
 
-        if (Member::class === $resourceClass
+        if (
+            Member::class === $resourceClass
             && $normalization
             && $request->attributes->get('data') instanceof Member
             && $this->authorizationChecker->isGranted('ROLE_USER')

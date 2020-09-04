@@ -7,6 +7,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Doctrine\AccommodationType;
 use App\Doctrine\GroupMembershipStatusType;
 use App\Doctrine\MemberStatusType;
@@ -23,16 +26,25 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Member.
- *
  * @ORM\Table(name="members")
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
  * @ORM\HasLifecycleCallbacks
  *
  * @SuppressWarnings(PHPMD)
- * Auto generated class do not check mess
+ *
+ * @ApiResource(
+ *     normalizationContext={"groups"={"Member:Read"}},
+ *     denormalizationContext={"groups"={"Member:Write"}},
+ *     collectionOperations={"get"},
+ *     security="is_granted('ROLE_USER')",
+ *     itemOperations={
+ *          "get"={"requirements"={"id"="^\d+$"}},
+ *          "get_by_username"={"path"="/members/{username}.{_format}", "method"="GET"}
+ *     }
+ * )
  */
 class Member implements UserInterface, \Serializable, EncoderAwareInterface, ObjectManagerAware
 {
@@ -79,6 +91,10 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var string
      *
      * @ORM\Column(name="Username", type="string", length=32, nullable=false)
+     *
+     * @Groups({"Member:Read"})
+     *
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     protected $username;
 
@@ -86,6 +102,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var string
      *
      * @ORM\Column(name="Email", type="string", nullable=false)
+     *
+     * @Groups({"Member:Read:Owner"})
      */
     protected $email;
 
@@ -93,6 +111,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var DateTime
      *
      * @ORM\Column(name="LastLogin", type="datetime", nullable=true)
+     *
+     * @Groups({"Member:Read"})
      */
     protected $lastLogin = null;
 
@@ -138,18 +158,13 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      *
      * @ORM\ManyToOne(targetEntity="Location")
      * @ORM\JoinColumn(name="IdCity", referencedColumnName="geonameId")
+     *
+     * @Groups({"Member:Read"})
+     *
+     * @ApiFilter(SearchFilter::class, strategy="ipartial", properties={"city.name", "city.country.name"})
+     * @ApiFilter(SearchFilter::class, strategy="exact", properties={"city.latitude", "city.longitude"})
      */
     private $city;
-
-    /**
-     * @var Location
-     */
-    private $region;
-
-    /**
-     * @var Country
-     */
-    private $country;
 
     /**
      * @var string
@@ -204,6 +219,9 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="firstname", type="string", nullable=false)
+     * todo Field is not properly saved from form (using Docker locally)
+     *
+     * @Groups({"Member:Read"})
      */
     private $firstName = '0';
 
@@ -211,6 +229,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="SecondName", type="string", nullable=true)
+     *
+     * @Groups({"Member:Read"})
      */
     private $secondName = null;
 
@@ -218,6 +238,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="LastName", type="string", nullable=false)
+     *
+     * @Groups({"Member:Read"})
      */
     private $lastName = '0';
 
@@ -225,6 +247,10 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var string
      *
      * @ORM\Column(name="Accomodation", type="accommodation", nullable=false)
+     *
+     * @Groups({"Member:Read"})
+     *
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     private $accommodation = AccommodationType::MAYBE;
 
@@ -260,6 +286,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var string
      *
      * @ORM\Column(name="TypicOffer", type="string", nullable=false)
+     *
+     * @Groups({"Member:Read"})
      */
     private $typicoffer;
 
@@ -274,6 +302,10 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="MaxGuest", type="integer", nullable=false)
+     *
+     * @Groups({"Member:Read"})
+     *
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     private $maxguest = '0';
 
@@ -295,6 +327,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var string
      *
      * @ORM\Column(name="Restrictions", type="string", nullable=false)
+     *
+     * @Groups({"Member:Read"})
      */
     private $restrictions;
 
@@ -337,6 +371,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
+     *
+     * @Groups({"Member:Read"})
      */
     private $created;
 
@@ -428,6 +464,7 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var DateTime
      *
      * @ORM\Column(name="BirthDate", type="date", nullable=true)
+     * todo Enable/disable filter depending on hidebirthdate
      */
     private $birthdate;
 
@@ -617,6 +654,7 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="hosting_interest", type="integer", nullable=true)
+     * todo Duplicate from MotivationForHospitality?
      */
     private $hostingInterest;
 
@@ -643,6 +681,10 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="MembersLanguagesLevel", mappedBy="member")
+     *
+     * @Groups({"Member:Read"})
+     *
+     * @ApiFilter(SearchFilter::class, strategy="exact", properties={"languageLevels.level", "languageLevels.language.name", "languageLevels.language.englishname", "languageLevels.language.shortcode"})
      */
     private $languageLevels;
 
@@ -668,8 +710,16 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      */
     private $preferences;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="member")
+     */
+    private $addresses;
+
     public function __construct()
     {
+        $this->addresses = new ArrayCollection();
         $this->volunteerRights = new ArrayCollection();
         $this->cryptedFields = new ArrayCollection();
         $this->groupMemberships = new ArrayCollection();
@@ -2657,6 +2707,38 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
     }
 
     /**
+     * Get addresses.
+     *
+     * @return Collection
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * Add address.
+     *
+     * @return Member
+     */
+    public function addAddress(Address $address)
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove address.
+     */
+    public function removeAddress(Address $address)
+    {
+        $this->addresses->removeElement($address);
+    }
+
+    /**
      * Add group.
      *
      * @return Member
@@ -2676,14 +2758,22 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
         $this->groupMemberships->removeElement($group);
     }
 
-    public function getCryptedField($fieldName)
+    /**
+     * @param string $fieldName The crypted field name
+     * @param bool   $decrypt   Should the value be decrypted?
+     * @param string $prefix    Criteria prefix
+     *
+     * @return string
+     */
+    public function getCryptedField($fieldName, bool $decrypt = true, string $prefix = 'members')
     {
         $stripped = '';
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('tablecolumn', 'members.' . $fieldName));
+            ->where(Criteria::expr()->eq('tablecolumn', $prefix . '.' . $fieldName));
+        /** @var CryptedField|false $cryptedField */
         $cryptedField = $this->cryptedFields->matching($criteria)->first();
         if (false !== $cryptedField) {
-            $value = $cryptedField->getMemberCryptedValue();
+            $value = $decrypt || 'crypted' !== $cryptedField->getIsCrypted() ? $cryptedField->getMemberCryptedValue() : '**********';
             $stripped = strip_tags($value);
         }
 
@@ -3049,6 +3139,8 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * Provides an array collection of all translated items of a profile.
      *
      * Needs to be called explicitly
+     *
+     * @Groups({"Member:Read"})
      */
     public function getMemberFields(): array
     {
@@ -3124,6 +3216,9 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
         return $phoneNumbers;
     }
 
+    /**
+     * @Groups({"Member:Read"})
+     */
     public function getMessengers()
     {
         $messengers = [
@@ -3179,10 +3274,21 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
         return $this->city->getCountry();
     }
 
+    /**
+     * @Groups({"Member:Read"})
+     */
     public function getAge(): int
     {
         $birthday = $this->getBirthdate();
 
         return $birthday->diffInYears();
+    }
+
+    /**
+     * @Groups({"Member:Read"})
+     */
+    public function getAvatar(): string
+    {
+        return '/members/avatar/' . $this->getUsername();
     }
 }

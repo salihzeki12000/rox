@@ -38,7 +38,7 @@ final class RefreshTokensExpireCommand extends Command
                 ]
             )
             ->setHelp(
-                <<<EOT
+                <<<'EOT'
 The <info>app:refresh-token:expire</info> command expires all refresh-tokens or by user:
 <info>php %command.full_name%</info>
 <info>php %command.full_name% username</info>
@@ -51,7 +51,8 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!empty($username = (string) $input->getArgument('username'))) {
+        $username = (string) $input->getArgument('username');
+        if (!empty($username)) {
             /** @var UserInterface|null $user */
             $user = $this->repository->findOneBy([(string) $input->getOption('field') => $username]);
             if (!$user) {

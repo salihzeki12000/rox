@@ -5,7 +5,3 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
-
-    App\Tests\Behat\FixturesContext:
-        arguments:
-            $aliceFixturesLoader: '@hautelook_alice.loader'

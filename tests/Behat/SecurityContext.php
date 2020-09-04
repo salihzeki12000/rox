@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class SecurityContext extends RawMinkContext
 {
-    private UserProviderInterface $userProvider;
-    private JWTTokenManagerInterface $tokenManager;
+    private $userProvider;
+    private $tokenManager;
 
     public function __construct(UserProviderInterface $userProvider, JWTTokenManagerInterface $tokenManager)
     {

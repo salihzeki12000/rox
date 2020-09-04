@@ -6,12 +6,13 @@ namespace App\Tests\Behat;
 
 use App\Repository\RefreshTokenRepository;
 use Behat\Behat\Context\Context;
+use RuntimeException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 final class RefreshTokenContext implements Context
 {
-    private RefreshTokenRepository $repository;
-    private UserProviderInterface $userProvider;
+    private $repository;
+    private $userProvider;
 
     public function __construct(RefreshTokenRepository $repository, UserProviderInterface $userProvider)
     {
@@ -26,7 +27,7 @@ final class RefreshTokenContext implements Context
     {
         $user = $this->userProvider->loadUserByUsername($username);
         if (null === $this->repository->findOneByUser($user)) {
-            throw new \RuntimeException("No refresh-token exist for user $username.");
+            throw new RuntimeException("No refresh-token exist for user $username.");
         }
     }
 }

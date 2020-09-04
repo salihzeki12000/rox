@@ -6,6 +6,7 @@ namespace App\Entity\Security;
 
 use App\Entity\Member;
 use App\Repository\RefreshTokenRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\Uuid;
@@ -48,6 +49,7 @@ class RefreshToken
 
     /**
      * @param string|UuidInterface $id
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function setId($id): self
     {
@@ -98,6 +100,6 @@ class RefreshToken
 
     public function isExpired(): bool
     {
-        return new \DateTimeImmutable() > $this->expiresAt;
+        return new DateTimeImmutable() > $this->expiresAt;
     }
 }

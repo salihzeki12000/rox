@@ -5,7 +5,7 @@ Feature: Login/logout
 
   Scenario: As unknown user, I cannot log in
     Given I add "Content-Type" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
       "username": "invalid",
@@ -13,87 +13,95 @@ Feature: Login/logout
     }
     """
     Then the response status code should be 401
+    And the JSON should be equal to:
+    """
+    {
+      "code": 401,
+      "message": "Invalid credentials."
+    }
+    """
 
-  Scenario Outline: As a valid user, I can log in with my username and/or email
+  Scenario Outline: As a valid user, I can log in with my username
     Given I add "Content-Type" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
       "username": "<username>",
-      "password": "P4$sw0rd"
+      "password": "password"
     }
     """
     Then the response status code should be 204
     And a refresh-token has been created on user "<username>"
-    When I send a "GET" request to "/users"
+    When I send a "GET" request to "/api/members"
     Then the response status code should be 200
     Examples:
-      | username             |
-      | john-doe             |
-      | JoHn-DoE             |
-      | john.doe@example.com |
-      | JoHn.DoE@eXaMpLe.CoM |
-      | invisible            |
+      | username |
+      | member-2 |
+      | member-3 |
+      | member-4 |
+      | member-5 |
 
   Scenario Outline: As an inactive or unverified user, I cannot log in
     Given I add "Content-Type" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
       "username": "<username>",
-      "password": "P4$sw0rd"
+      "password": "password"
     }
     """
     Then the response status code should be 401
     Examples:
-      | username   |
-      | disabled   |
-      | unverified |
+      | username         |
+      | member-banned    |
+      | member-taken-out |
 
+# todo Cookie remove seems buggy on Mink & BrowserKit
+#  @wip
 #  Scenario: As an authenticated user, I can log out
-#    Given I am authenticated as "john-doe"
-#    When I send a "GET" request to "/logout"
+#    Given I am authenticated as "member-2"
+#    When I send a "GET" request to "/api/logout"
 #    Then the response status code should be 302
-#    When I send a "GET" request to "/users"
+#    When I send a "GET" request to "/api/members"
 #    Then the response status code should be 401
 
   Scenario: As anonymous, I cannot login after 3 failed attempts on the same account
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-2",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-2",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-2",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-2",
       "password": "invalid"
     }
     """
@@ -104,40 +112,40 @@ Feature: Login/logout
   Scenario: As anonymous, I am not blocked after 3 failed attempts on different accounts
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-2",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "jane-doe",
+      "username": "member-3",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "john-doe",
+      "username": "member-4",
       "password": "invalid"
     }
     """
     Then the response status code should be 401
     Given I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    When I send a "POST" request to "/login" with body:
+    When I send a "POST" request to "/api/login" with body:
     """
     {
-      "username": "jane-doe",
+      "username": "member-5",
       "password": "invalid"
     }
     """

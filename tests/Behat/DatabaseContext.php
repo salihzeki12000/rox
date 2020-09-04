@@ -5,35 +5,37 @@ declare(strict_types=1);
 namespace App\Tests\Behat;
 
 use Behat\Behat\Context\Context;
-use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\Persistence\ManagerRegistry;
+use DAMA\DoctrineTestBundle\Doctrine\DBAL\StaticDriver;
 
 final class DatabaseContext implements Context
 {
-    private SchemaTool $schemaTool;
-    private array $classes;
-
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @BeforeSuite
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    public static function disableAutocommit()
     {
-        $entityManager = $registry->getManager();
-
-        $this->schemaTool = new SchemaTool($entityManager);
-        $this->classes = $entityManager->getMetadataFactory()->getAllMetadata();
+        StaticDriver::setKeepStaticConnections(true);
     }
 
     /**
      * @BeforeScenario
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function createSchema(): void
+    public function beginTransaction()
     {
-        $this->schemaTool->createSchema($this->classes);
+        StaticDriver::beginTransaction();
     }
 
     /**
      * @AfterScenario
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function dropSchema(): void
+    public function rollbackTransaction()
     {
-        $this->schemaTool->dropSchema($this->classes);
+        StaticDriver::rollBack();
     }
 }

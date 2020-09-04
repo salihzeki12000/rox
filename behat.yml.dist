@@ -4,11 +4,8 @@ default:
             contexts:
                 - 'Alex\MailCatcher\Behat\MailCatcherContext': ~
                 - 'App\Tests\Behat\DatabaseContext': ~
-                - 'App\Tests\Behat\FixturesContext': ~
-                - 'App\Tests\Behat\ForgotPasswordContext': ~
                 - 'App\Tests\Behat\RefreshTokenContext': ~
                 - 'App\Tests\Behat\SecurityContext': ~
-                - 'App\Tests\Behat\UserContext': ~
                 - 'Behat\MinkExtension\Context\MinkContext': ~
                 - 'Behatch\Context\JsonContext': ~
                 - 'Behatch\Context\RestContext': ~

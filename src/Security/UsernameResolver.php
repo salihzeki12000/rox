@@ -14,7 +14,7 @@ final class UsernameResolver implements UsernameResolverInterface
      */
     public function resolve(Request $request): ?string
     {
-        $requestData = \json_decode($request->getContent(), true);
+        $requestData = json_decode($request->getContent(), true);
 
         return \is_array($requestData) && \array_key_exists('username', $requestData) ? $requestData['username'] : null;
     }

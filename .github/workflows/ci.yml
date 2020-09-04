@@ -2,6 +2,9 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - bootstrap4
 
 jobs:
   phpcpd:
@@ -75,12 +78,23 @@ jobs:
       fail-fast: false
     env:
       MAILER_DSN: 'smtp://localhost:1025'
+      DATABASE_URL: 'mysql://bewelcome:bewelcome@127.0.0.1:3306/bewelcome'
+      APP_ENV: 'test'
     services:
       mailcatcher:
         image: tophfr/mailcatcher
         ports:
           - 1080:80
           - 1025:25
+      db:
+        image: mariadb:10.1.41
+        env:
+          MYSQL_ROOT_PASSWORD: bewelcome_root_dev
+          MYSQL_DATABASE: bewelcome
+          MYSQL_USER: bewelcome
+          MYSQL_PASSWORD: bewelcome
+        ports:
+          - 3306:3306
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -90,6 +104,9 @@ jobs:
         with:
           php-version: 7.3
           extensions: curl, dom, gd, iconv, intl, json, libxml, mbstring, mysqli, pcntl, pdo_mysql, phar, tokenizer, xdebug, xml, xmlwriter, xsl, zip
+
+      - name: Setup NODE
+        uses: actions/setup-node@v2-beta
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -103,7 +120,16 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install project dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+        run: |
+          npm ci
+          composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+
+      - name: Prepare test database
+        run: |
+          npx encore production
+          bin/console doctrine:database:create --env=test --if-not-exists
+          bin/console doctrine:schema:create --env=test
+          bin/console hautelook:fixtures:load --env=test --no-interaction
 
       - name: Run behat tests
         run: vendor/bin/behat --profile localhost --colors --tags='~@wip'

@@ -43,8 +43,8 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	fi
 
 	if [ "$APP_ENV" != 'prod' ]; then
-		composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
 		yarn install --frozen-lock
+		composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
 	fi
 
 	echo "Waiting for db to be ready..."
@@ -76,7 +76,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	composer run-script --no-dev post-install-cmd
 
 	if [ "$APP_ENV" != 'prod' ]; then
-		./node_modules/.bin/encore dev --mode=development
+		yarn encore dev --mode=development
 	fi
 fi
 
