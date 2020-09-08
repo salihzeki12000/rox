@@ -37,6 +37,7 @@ phploc.xml
 /public/main.js.map
 /public/service-worker.js
 /public/service-worker.js.map
+/swagger.json
 
 # deployer config
 /config/deployer.yml
@@ -57,6 +58,7 @@ phploc.xml
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
+/build
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###

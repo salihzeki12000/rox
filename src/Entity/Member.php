@@ -81,6 +81,9 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
     public const ROLE_ADMIN_TREASURER = 'ROLE_ADMIN_TREASURER';
     public const ROLE_ADMIN_VERIFIER = 'ROLE_ADMIN_VERIFIER';
     public const ROLE_ADMIN_WORDS = 'ROLE_ADMIN_WORDS';
+    public const MEMBER_FIRSTNAME_HIDDEN = 1;
+    public const MEMBER_SECONDNAME_HIDDEN = 2;
+    public const MEMBER_LASTNAME_HIDDEN = 4;
 
     /**
      * @var ObjectManager
@@ -219,7 +222,6 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="firstname", type="string", nullable=false)
-     * todo Field is not properly saved from form (using Docker locally)
      *
      * @Groups({"Member:Read"})
      */
@@ -464,7 +466,6 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var DateTime
      *
      * @ORM\Column(name="BirthDate", type="date", nullable=true)
-     * todo Enable/disable filter depending on hidebirthdate
      */
     private $birthdate;
 
@@ -654,7 +655,6 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      * @var int
      *
      * @ORM\Column(name="hosting_interest", type="integer", nullable=true)
-     * todo Duplicate from MotivationForHospitality?
      */
     private $hostingInterest;
 
@@ -2562,7 +2562,6 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
 
     /**

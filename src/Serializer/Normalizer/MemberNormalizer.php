@@ -28,18 +28,29 @@ final class MemberNormalizer implements ContextAwareNormalizerInterface, Normali
         if ('No' === $object->getHidegender()) {
             unset($data['gender']);
         }
+        $hideAttribute = $object->getHideAttribute();
+        if ($hideAttribute & Member::MEMBER_FIRSTNAME_HIDDEN) {
+            unset($data['firstName']);
+        }
+        if ($hideAttribute & Member::MEMBER_SECONDNAME_HIDDEN) {
+            unset($data['secondName']);
+        }
+        if ($hideAttribute & Member::MEMBER_LASTNAME_HIDDEN) {
+            unset($data['lastName']);
+        }
 
         $addresses = $object->getAddresses();
         if ('No' !== $object->getAdresshidden() && $addresses->count()) {
-            $data['address'] = $this->normalizer->normalize($addresses->first(), str_ireplace('jsonld', 'json', $format), $context);
+            $data['address'] = $this->normalizer->normalize(
+                $addresses->first(),
+                str_ireplace('jsonld', 'json', $format),
+                $context
+            );
         }
 
         foreach (['homePhoneNumber', 'cellPhoneNumber', 'workPhoneNumber'] as $property) {
             $data[$property] = $object->getCryptedField(ucfirst($property), false);
         }
-        // todo Remove firstName if hidden
-        // todo Remove secondName if hidden
-        // todo Remove lastName if hidden
 
         return $data;
     }

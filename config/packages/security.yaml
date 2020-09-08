@@ -101,7 +101,7 @@ security:
         - { path: ^/communitynews, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/members/avatar/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, roles: ROLE_ADMIN }
-        - { path: ^/api/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 
 #    role_hierarchy:
