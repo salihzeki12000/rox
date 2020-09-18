@@ -2,10 +2,8 @@
 
 namespace App\TranslationLoader;
 
-use App\Controller\MessageController;
 use App\Entity\Word;
 use Doctrine\ORM\EntityManager;
-use Exception;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 

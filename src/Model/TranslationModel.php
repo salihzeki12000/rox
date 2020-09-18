@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use App\Entity\Word;
-use App\Kernel;
 use App\Pagerfanta\ArchivedTranslationAdapter;
 use App\Pagerfanta\DoNotTranslateTranslationAdapter;
 use App\Pagerfanta\MissingTranslationAdapter;
@@ -13,7 +12,6 @@ use App\Utilities\ManagerTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TranslationModel

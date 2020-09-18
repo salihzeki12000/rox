@@ -87,7 +87,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
                 'dump_it',
                 [
                     $this,
-                    'dumpIt'
+                    'dumpIt',
                 ],
                 [
                     'is_safe' => ['html'],
@@ -97,7 +97,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
                 'language_name',
                 [
                     $this,
-                    'languageName'
+                    'languageName',
                 ],
                 [
                     'is_safe' => ['html'],
@@ -107,7 +107,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
                 'language_name_translated',
                 [
                     $this,
-                    'languageNameTranslated'
+                    'languageNameTranslated',
                 ],
                 [
                     'is_safe' => ['html'],
@@ -123,6 +123,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
         $this->translator->setLocale($locale);
         $languageName = $this->translator->trans(strtolower('lang_' . $locale));
         $this->translator->setLocale($current);
+
         return $languageName;
     }
 
@@ -132,6 +133,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
         $this->translator->setLocale($display);
         $languageName = $this->translator->trans(strtolower('lang_' . $locale));
         $this->translator->setLocale($current);
+
         return $languageName;
     }
 
