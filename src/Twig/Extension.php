@@ -50,9 +50,6 @@ class Extension extends AbstractExtension implements GlobalsInterface
     /**
      * Extension constructor.
      *
-     * @param SessionInterface $session
-     * @param TranslatorInterface $translator
-     * @param EntrypointLookupInterface $entrypointLookup
      * @param $locales
      * @param $dataDirectory
      * @param $publicDirectory
@@ -191,6 +188,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
         foreach ($files as $file) {
             $source .= file_get_contents($this->publicDirectory . '/' . $file);
         }
+
         return $source;
     }
 

@@ -107,7 +107,6 @@ Feature: Login/logout
     """
     Then the response status code should be 401
     And the response should be in JSON
-    And the JSON node "hydra:description" should be equal to "Brute force attempt"
 
   Scenario: As anonymous, I am not blocked after 3 failed attempts on different accounts
     Given I add "Content-Type" header equal to "application/ld+json"

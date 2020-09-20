@@ -2768,11 +2768,10 @@ class Member implements UserInterface, \Serializable, EncoderAwareInterface, Obj
     {
         $stripped = '';
         $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('tablecolumn', $prefix . '.' . $fieldName));
-        /** @var CryptedField|false $cryptedField */
+            ->where(Criteria::expr()->eq('tablecolumn', 'members.' . $fieldName));
         $cryptedField = $this->cryptedFields->matching($criteria)->first();
         if (false !== $cryptedField) {
-            $value = $decrypt || 'crypted' !== $cryptedField->getIsCrypted() ? $cryptedField->getMemberCryptedValue() : '**********';
+            $value = $cryptedField->getMemberCryptedValue();
             $stripped = strip_tags($value);
         }
 

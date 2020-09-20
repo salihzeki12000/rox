@@ -89,6 +89,6 @@ final class SwaggerDecorator implements NormalizerInterface
             ],
         ];
 
-        return \array_merge_recursive($docs, $tokenDocumentation);
+        return array_merge_recursive($docs, $tokenDocumentation);
     }
 }

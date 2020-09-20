@@ -41,8 +41,7 @@ class DatabaseLoader implements LoaderInterface
 
     private function getTranslationsForLocale($locale, $domain)
     {
-        return $this->em->getRepository(Word::class)->getTranslationsForLocale( $locale,
-            $domain);
+        return $this->em->getRepository(Word::class)->getTranslationsForLocale($locale, $domain);
     }
 
     private function loadTranslationsForLocale($locale, $domain)
