@@ -26,21 +26,15 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api-login:
-            pattern: ^/api/login
-            stateless: true
+        api:
+            pattern: ^/api
             anonymous: true
+            stateless: true
             user_checker: rox.user_checker
             json_login:
                 check_path: /api/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
-        api:
-            pattern: ^/api/
-            anonymous: lazy
-            stateless: true
-            user_checker: rox.user_checker
             logout:
                 path: /api/logout
                 delete_cookies: ['bewelcome']

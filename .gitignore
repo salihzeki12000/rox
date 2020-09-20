@@ -55,10 +55,12 @@ phploc.xml
 /.php_cs
 /.php_cs.cache
 ###< friendsofphp/php-cs-fixer ###
+
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
 /build
+.phpunit.result.cache
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/webpack-encore-bundle ###

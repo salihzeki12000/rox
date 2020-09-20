@@ -8,9 +8,9 @@ use DateInterval;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
-class HostingRequestModelTest extends TestCase
+final class HostingRequestModelTest extends TestCase
 {
-    public function testRequestExpiredYesterday()
+    public function testRequestExpiredYesterday(): void
     {
         $arrival = (clone(new DateTime()))->sub(new DateInterval('P2D'));
         $departure = (clone($arrival))->sub(new DateInterval('P1D'));
@@ -25,7 +25,7 @@ class HostingRequestModelTest extends TestCase
         $this->assertEquals(true, $expired);
     }
 
-    public function testRequestExpiresTomorrow()
+    public function testRequestExpiresTomorrow(): void
     {
         $arrival = (clone(new DateTime()))->sub(new DateInterval('P2D'));
         $departure = (clone($arrival))->add(new DateInterval('P1D'));
@@ -40,7 +40,7 @@ class HostingRequestModelTest extends TestCase
         $this->assertEquals(false, $expired);
     }
 
-    public function testRequestExpiresNoDeparture()
+    public function testRequestExpiresNoDeparture(): void
     {
         $arrival = (clone(new DateTime()))->sub(new DateInterval('P2D'));
 

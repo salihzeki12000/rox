@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
 
-class HostingRequestControllerTest extends TestCase
+final class HostingRequestControllerTest extends TestCase
 {
     /** @var Member */
     private $sender;
@@ -64,7 +64,7 @@ class HostingRequestControllerTest extends TestCase
      * @return Message
      * @throws InvalidArgumentException
      */
-    private function setupRequestMessage($arrival, $departure, $flexible, $numberOfTravellers, $state, $messageText = '')
+    private function setupRequestMessage($arrival, $departure, $flexible, $numberOfTravellers, $state, $messageText = ''): Message
     {
         $message = new Message();
         $message->setParent($this->parent);
@@ -85,7 +85,7 @@ class HostingRequestControllerTest extends TestCase
         return $message;
     }
 
-    public function stateDataProvider()
+    public function stateDataProvider(): array
     {
         return [
             ['cancel', HostingRequest::REQUEST_CANCELLED],
@@ -98,7 +98,7 @@ class HostingRequestControllerTest extends TestCase
     /**
      * @dataProvider stateDataProvider
      */
-    public function testGetFinalRequestStateChange($clickedButton, $expected)
+    public function testGetFinalRequestStateChange($clickedButton, $expected): void
     {
         $arrival = new DateTime();
         $departure = $arrival->add(new DateInterval('P2D'));
@@ -123,7 +123,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestFlexibleChanged()
+    public function testGetFinalRequestFlexibleChanged(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -150,7 +150,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestArrivalChanged()
+    public function testGetFinalRequestArrivalChanged(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -176,7 +176,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestDepartureChanged()
+    public function testGetFinalRequestDepartureChanged(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -203,7 +203,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestArrivalAndDepartureChanged()
+    public function testGetFinalRequestArrivalAndDepartureChanged(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -232,7 +232,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestNumberOfTravellersChanged()
+    public function testGetFinalRequestNumberOfTravellersChanged(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -258,7 +258,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getArrival(), $hostingRequestMessage->getRequest()->getArrival());
     }
 
-    public function testGetFinalRequestMessage()
+    public function testGetFinalRequestMessage(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -287,7 +287,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestParent()
+    public function testGetFinalRequestParent(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));
@@ -316,7 +316,7 @@ class HostingRequestControllerTest extends TestCase
         $this->assertEquals($finalRequestMessage->getRequest()->getNumberOfTravellers(), $hostingRequestMessage->getRequest()->getNumberOfTravellers());
     }
 
-    public function testGetFinalRequestSubject()
+    public function testGetFinalRequestSubject(): void
     {
         $arrival = new DateTime();
         $departure = (clone($arrival))->add(new DateInterval('P2D'));

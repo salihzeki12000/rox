@@ -60,6 +60,6 @@ final class MemberNormalizer implements ContextAwareNormalizerInterface, Normali
      */
     public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
-        return is_a($data, Member::class, true) && true !== ($context[__CLASS__] ?? false);
+        return $data instanceof Member && true !== ($context[__CLASS__] ?? false);
     }
 }

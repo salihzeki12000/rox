@@ -4,6 +4,7 @@ legacy:
 
 api_login:
     path: /api/login
+    methods: ['POST']
 
 api_logout:
     path: /api/logout
