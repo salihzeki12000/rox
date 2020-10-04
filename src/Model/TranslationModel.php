@@ -44,7 +44,6 @@ class TranslationModel
 
     /**
      * Remove the cache file corresponding to the given locale.
-     * @param string|null $locale
      */
     public function refreshTranslationsCacheForLocale(?string $locale = null): void
     {
@@ -101,12 +100,9 @@ class TranslationModel
         $em->flush();
     }
 
-    /**
-     * @param string|null $locale
-     */
     private function removeAndWarmupCacheForLocale(?string $locale): void
     {
-        $translationDir = \sprintf('%s/translations', $this->cacheDirectory);
+        $translationDir = sprintf('%s/translations', $this->cacheDirectory);
 
         $finder = new Finder();
 
