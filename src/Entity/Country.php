@@ -28,7 +28,7 @@ class Country
      *
      * @Groups({"Member:Read"})
      */
-    private $geonameid;
+    private $geonameId;
 
     /**
      * @var string
@@ -59,13 +59,13 @@ class Country
     /**
      * Set geonameId.
      *
-     * @param int $geonameid
+     * @param int $geonameId
      *
      * @return Country
      */
-    public function setGeonameid($geonameid)
+    public function setGeonameId($geonameId)
     {
-        $this->geonameId = $geonameid;
+        $this->geonameId = $geonameId;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Country
      *
      * @return int
      */
-    public function getGeonameid()
+    public function getGeonameId()
     {
         return $this->geonameId;
     }

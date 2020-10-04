@@ -36,7 +36,7 @@
                 "longitude": {
                     "required": true
                 },
-                "geonameid": {
+                "geonameId": {
                     "required": true
                 },
                 "country": {
@@ -44,7 +44,7 @@
                     "required": true,
                     "additionalProperties": false,
                     "properties": {
-                        "geonameid": {
+                        "geonameId": {
                             "required": true
                         },
                         "name": {
@@ -359,7 +359,7 @@
                         "longitude": {
                             "required": true
                         },
-                        "geonameid": {
+                        "geonameId": {
                             "required": true,
                             "type": "integer"
                         },
@@ -368,7 +368,7 @@
                             "required": true,
                             "additionalProperties": false,
                             "properties": {
-                                "geonameid": {
+                                "geonameId": {
                                     "required": true,
                                     "type": "integer"
                                 },
