@@ -28,6 +28,7 @@ class RefreshTokenRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('rt')
             ->andWhere('rt.user = :user')->setParameter('user', $user)
             ->andWhere('rt.expiresAt > :now')->setParameter('now', new DateTimeImmutable())
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }

@@ -42,7 +42,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     security="is_granted('ROLE_USER')",
  *     itemOperations={
  *          "get"={"requirements"={"id"="^\d+$"}},
- *          "get_by_username"={"path"="/members/{username}.{_format}", "method"="GET"}
+ *          "get_by_username"={
+ *              "path"="/members/{username}.{_format}",
+ *              "method"="GET",
+ *              "openapi_context"={
+ *                  "parameters"={
+ *                      {"name"="username", "in"="path", "required"=true, "schema"={"type"="string"}}
+ *                  }
+ *              }
+ *          }
  *     }
  * )
  */
