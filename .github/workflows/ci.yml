@@ -119,6 +119,8 @@ jobs:
 
       - name: Setup NODE
         uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -133,12 +135,12 @@ jobs:
 
       - name: Install project dependencies
         run: |
-          npm ci
+          yarn install --frozen-lock
           composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
 
       - name: Prepare test database
         run: |
-          npx encore production
+          yarn encore production
           bin/console doctrine:database:create --env=test --if-not-exists
           bin/console doctrine:schema:create --env=test
           bin/console hautelook:fixtures:load --env=test --no-interaction
@@ -338,13 +340,13 @@ jobs:
       - name: Install project dependencies
         run: |
           composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
-          npm ci
+          yarn install --frozen-lock
 
       - name: Export Swagger documentation
         run: bin/console api:swagger:export > swagger.json
 
       - name: Validate Swagger documentation
-        run: npx swagger-cli validate swagger.json
+        run: yarn swagger-cli validate swagger.json
 
   security:
     name: Security checks
@@ -378,10 +380,10 @@ jobs:
       - name: Install project dependencies
         run: |
           composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
-          npm ci
+          yarn install --frozen-lock
 
       - name: Run PHP security checker
         run: vendor/bin/security-checker security:check
 
       - name: Run JS security checker
-        run: npm audit
+        run: yarn audit
