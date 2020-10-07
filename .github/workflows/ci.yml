@@ -308,6 +308,38 @@ jobs:
       - name: Run Linter
         run: bin/console lint:yaml config --parse-tags
 
+  doctrine-schema-validator:
+    name: Validate Doctrine schema
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.3
+          extensions: curl, dom, gd, iconv, intl, json, libxml, mbstring, mysqli, pcntl, pdo_mysql, phar, tokenizer, xdebug, xml, xmlwriter, xsl, zip
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install project dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+
+      - name: Validate Doctrine schema
+        run: bin/console doctrine:schema:validate --skip-sync
+
   swagger:
     name: Swagger validator
     runs-on: ubuntu-latest
