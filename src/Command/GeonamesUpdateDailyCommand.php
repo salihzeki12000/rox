@@ -195,7 +195,6 @@ class GeonamesUpdateDailyCommand extends Command
                 $statement->execute([
                     ':alternate_id' => $delete[0],
                     ':geoname_id' => $delete[1],
-
                 ]);
             }
         }

@@ -37,7 +37,7 @@ class Address
      *
      * @ORM\Column(name="HouseNumber", type="integer", nullable=false)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $houseNumber;
 
@@ -46,7 +46,7 @@ class Address
      *
      * @ORM\Column(name="StreetName", type="integer", nullable=false)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $streetName;
 
@@ -55,7 +55,7 @@ class Address
      *
      * @ORM\Column(name="Zip", type="integer", nullable=false)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $zip;
 
@@ -65,7 +65,7 @@ class Address
      * @ORM\ManyToOne(targetEntity="Location")
      * @ORM\JoinColumn(name="IdCity", referencedColumnName="geonameId")
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $location;
 

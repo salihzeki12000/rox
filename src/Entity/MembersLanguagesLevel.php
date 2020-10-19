@@ -51,7 +51,7 @@ class MembersLanguagesLevel
      * @ORM\ManyToOne(targetEntity="Language", inversedBy="levels")
      * @ORM\JoinColumn(name="IdLanguage", referencedColumnName="id", nullable=FALSE)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $language;
 
@@ -60,7 +60,7 @@ class MembersLanguagesLevel
      *
      * @ORM\Column(name="Level", type="language_level", nullable=false)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $level = LanguageLevelType::BEGINNER;
 

@@ -317,7 +317,7 @@
         "version": "0.2.4"
     },
     "infection/infection": {
-        "version": "0.17.5"
+        "version": "0.17.7"
     },
     "intervention/image": {
         "version": "2.5.1"
@@ -1093,7 +1093,7 @@
         "version": "v4.4.5"
     },
     "thecodingmachine/safe": {
-        "version": "v1.2.1"
+        "version": "v1.3.1"
     },
     "theofidry/alice-data-fixtures": {
         "version": "1.0",

@@ -27,7 +27,7 @@ class Location
      *
      * @ORM\Column(name="name", type="string", length=200, nullable=true)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $name;
 
@@ -36,7 +36,7 @@ class Location
      *
      * @ORM\Column(name="latitude", type="decimal", precision=10, scale=7, nullable=true)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $latitude;
 
@@ -45,7 +45,7 @@ class Location
      *
      * @ORM\Column(name="longitude", type="decimal", precision=10, scale=7, nullable=true)
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $longitude;
 
@@ -69,7 +69,7 @@ class Location
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumn(name="country", referencedColumnName="country")
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $country;
 
@@ -101,7 +101,7 @@ class Location
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Groups({"Member:Read"})
+     * @Groups({"Member:Read", "Member:List"})
      */
     private $geonameId;
 
